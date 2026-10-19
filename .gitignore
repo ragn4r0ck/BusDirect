@@ -1,0 +1,10 @@
+# Fichiers créés par les éditeurs et les systèmes d'exploitation
+.vscode/
+.idea/
+*.code-workspace
+
+# Fichiers temporaires
+*.log
+*.tmp
+Thumbs.db
+.DS_Store
