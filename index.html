@@ -49,3 +49,20 @@
           Cliquez sur un siège libre pour le choisir, ou sur un siège occupé pour le modifier.
         </p>
       </section>
+
+      <section class="card">
+        <h2>Réservations</h2>
+
+        <form id="booking-form">
+          <h3>Ajouter un passager</h3>
+
+          <label for="booking-name">Nom du passager</label>
+          <input id="booking-name" type="text" maxlength="40" placeholder="Ex. Amina El Amrani" required>
+
+          <label for="booking-seat">Siège</label>
+          <select id="booking-seat">
+            <option value="">Choisir automatiquement</option>
+          </select>
+
+          <button type="submit">Réserver</button>
+        </form>
