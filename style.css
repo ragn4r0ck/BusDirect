@@ -258,3 +258,61 @@ footer {
   color: #777777;
   font-size: 13px;
 }
+
+/* Page des billets */
+.search {
+  width: 100%;
+  max-width: 320px;
+  margin: 15px 0;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #eeeeee;
+  font-size: 14px;
+}
+
+th {
+  background: #f7f7f7;
+  font-size: 13px;
+}
+
+.delete-button {
+  background: #ffffff;
+  color: #333333;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.delete-button:hover {
+  background: #f0f0f0;
+}
+
+.empty {
+  text-align: center;
+  padding: 30px;
+  color: #777777;
+}
+
+@media (max-width: 800px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  nav a {
+    margin-left: 0;
+    margin-right: 15px;
+  }
+}
