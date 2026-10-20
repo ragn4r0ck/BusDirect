@@ -4,7 +4,10 @@ const PRIX = 80;
 let reservations = [];
 
 const grille = document.getElementById("seat-grid");
+const formulaireAjout = document.getElementById("booking-form");
+const nomAjout = document.getElementById("booking-name");
 const siegeAjout = document.getElementById("booking-seat");
+const message = document.getElementById("message");
 
 reservations.sort(function (a, b) {
   return a.siege - b.siege;
@@ -21,6 +24,19 @@ function trouverReservation(siege) {
 
 function siegeLibre(siege) {
   return trouverReservation(siege) === null;
+}
+
+function premierSiegeLibre() {
+  for (let siege = 1; siege <= NOMBRE_DE_SIEGES; siege++) {
+    if (siegeLibre(siege)) {
+      return siege;
+    }
+  }
+  return null;
+}
+
+function afficherMessage(texte) {
+  message.textContent = texte;
 }
 
 function afficherSieges() {
@@ -80,5 +96,43 @@ function afficher() {
   document.getElementById("revenue-count").textContent = reservations.length * PRIX + " DH";
   document.getElementById("ticket-count").textContent = reservations.length;
 }
+
+formulaireAjout.onsubmit = function (event) {
+  event.preventDefault();
+
+  const nom = nomAjout.value.trim();
+
+  if (nom === "") {
+    afficherMessage("Le nom du passager est obligatoire.");
+    return;
+  }
+
+  let siege;
+
+  if (siegeAjout.value === "") {
+    siege = premierSiegeLibre();
+  } else {
+    siege = Number(siegeAjout.value);
+  }
+
+  if (siege === null) {
+    afficherMessage("Le bus est complet.");
+    return;
+  }
+
+  if (!siegeLibre(siege)) {
+    afficherMessage("Ce siège est déjà occupé.");
+    return;
+  }
+
+  reservations.push({ nom: nom, siege: siege });
+  reservations.sort(function (a, b) {
+    return a.siege - b.siege;
+  });
+
+  afficher();
+  formulaireAjout.reset();
+  afficherMessage("Réservation ajoutée au siège " + siege + ".");
+};
 
 afficher();
