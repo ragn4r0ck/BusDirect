@@ -140,3 +140,48 @@ h1 {
   border: 1px solid #999999;
 }
 
+.seat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 24px 1fr 1fr;
+  gap: 8px;
+  background: #f7f7f7;
+  padding: 14px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.seat {
+  min-height: 52px;
+  border: 1px solid #999999;
+  background: #ffffff;
+  color: #222222;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 4px;
+}
+
+.seat:hover {
+  background: #f0f0f0;
+}
+
+.seat.occupied {
+  background: #e0e0e0;
+  border-color: #999999;
+  color: #222222;
+}
+
+.seat small {
+  display: block;
+  font-size: 9px;
+  margin-top: 3px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.help {
+  color: #666666;
+  font-size: 13px;
+  margin-bottom: 0;
+}
