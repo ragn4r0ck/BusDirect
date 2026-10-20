@@ -18,6 +18,10 @@ function trouverReservation(siege) {
   return null;
 }
 
+function siegeLibre(siege) {
+  return trouverReservation(siege) === null;
+}
+
 function afficherSieges() {
   grille.innerHTML = "";
   let siege = 1;
@@ -58,6 +62,12 @@ function afficherSieges() {
 function remplirSelectAjout() {
   siegeAjout.innerHTML = "";
   siegeAjout.add(new Option("Choisir automatiquement", ""));
+
+  for (let siege = 1; siege <= NOMBRE_DE_SIEGES; siege++) {
+    if (siegeLibre(siege)) {
+      siegeAjout.add(new Option("Siège " + siege, siege));
+    }
+  }
 }
 
 function afficher() {
