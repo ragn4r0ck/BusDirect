@@ -185,3 +185,76 @@ h1 {
   font-size: 13px;
   margin-bottom: 0;
 }
+
+form {
+  border-bottom: 1px solid #eeeeee;
+  padding-bottom: 15px;
+  margin-bottom: 18px;
+}
+
+form:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #ffffff;
+}
+
+button[type="submit"],
+.delete-button {
+  border: 1px solid #333333;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="submit"] {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  background: #333333;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+button[type="submit"]:hover {
+  background: #111111;
+}
+
+button[type="submit"].danger {
+  background: #ffffff;
+  color: #333333;
+}
+
+button[type="submit"].danger:hover {
+  background: #f0f0f0;
+}
+
+#message {
+  min-height: 22px;
+  margin: 14px 0 0;
+  color: #333333;
+  font-size: 14px;
+}
+
+footer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px 20px 25px;
+  color: #777777;
+  font-size: 13px;
+}
