@@ -1,4 +1,5 @@
 const NOMBRE_DE_SIEGES = 20;
+const PRIX = 80;
 
 let reservations = [];
 
@@ -73,6 +74,11 @@ function remplirSelectAjout() {
 function afficher() {
   afficherSieges();
   remplirSelectAjout();
+
+  document.getElementById("available-count").textContent = NOMBRE_DE_SIEGES - reservations.length;
+  document.getElementById("occupied-count").textContent = reservations.length;
+  document.getElementById("revenue-count").textContent = reservations.length * PRIX + " DH";
+  document.getElementById("ticket-count").textContent = reservations.length;
 }
 
 afficher();
