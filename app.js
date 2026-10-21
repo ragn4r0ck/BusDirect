@@ -11,6 +11,8 @@ const formulaireModification = document.getElementById("manage-form");
 const passagerModification = document.getElementById("manage-passenger");
 const nomModification = document.getElementById("manage-name");
 const siegeModification = document.getElementById("manage-seat");
+const formulaireSuppression = document.getElementById("delete-form");
+const passagerSuppression = document.getElementById("delete-passenger");
 const message = document.getElementById("message");
 
 reservations.sort(function (a, b) {
@@ -110,12 +112,15 @@ function remplirSelectAjout() {
 function remplirSelectPassagers() {
   passagerModification.innerHTML = "";
   passagerModification.add(new Option("Choisir un passager", ""));
+  passagerSuppression.innerHTML = "";
+  passagerSuppression.add(new Option("Choisir un passager", ""));
 
   for (let i = 0; i < reservations.length; i++) {
     const reservation = reservations[i];
     const texte = reservation.nom + " (siège " + reservation.siege + ")";
 
     passagerModification.add(new Option(texte, reservation.siege));
+    passagerSuppression.add(new Option(texte, reservation.siege));
   }
 }
 
@@ -249,6 +254,33 @@ formulaireModification.onsubmit = function (event) {
   afficher();
   formulaireModification.reset();
   afficherMessage("Réservation modifiée.");
+};
+
+formulaireSuppression.onsubmit = function (event) {
+  event.preventDefault();
+
+  const siege = Number(passagerSuppression.value);
+  const reservation = trouverReservation(siege);
+
+  if (reservation === null) {
+    afficherMessage("Choisissez un passager à supprimer.");
+    return;
+  }
+
+  if (!confirm("Supprimer la réservation de " + reservation.nom + " ?")) {
+    return;
+  }
+
+  for (let i = 0; i < reservations.length; i++) {
+    if (reservations[i].siege === siege) {
+      reservations.splice(i, 1);
+      break;
+    }
+  }
+
+  afficher();
+  formulaireSuppression.reset();
+  afficherMessage("Réservation supprimée.");
 };
 
 afficher();
