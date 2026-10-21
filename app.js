@@ -39,6 +39,22 @@ function afficherMessage(texte) {
   message.textContent = texte;
 }
 
+function nomDejaUtilise(nom, reservationIgnoree) {
+  for (let i = 0; i < reservations.length; i++) {
+    const reservation = reservations[i];
+
+    if (reservation === reservationIgnoree) {
+      continue;
+    }
+
+    if (reservation.nom.toLowerCase() === nom.toLowerCase()) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function afficherSieges() {
   grille.innerHTML = "";
   let siege = 1;
@@ -104,6 +120,11 @@ formulaireAjout.onsubmit = function (event) {
 
   if (nom === "") {
     afficherMessage("Le nom du passager est obligatoire.");
+    return;
+  }
+
+  if (nomDejaUtilise(nom, null)) {
+    afficherMessage("Ce passager a déjà une réservation.");
     return;
   }
 
