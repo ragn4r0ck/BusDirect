@@ -7,6 +7,10 @@ const grille = document.getElementById("seat-grid");
 const formulaireAjout = document.getElementById("booking-form");
 const nomAjout = document.getElementById("booking-name");
 const siegeAjout = document.getElementById("booking-seat");
+const formulaireModification = document.getElementById("manage-form");
+const passagerModification = document.getElementById("manage-passenger");
+const nomModification = document.getElementById("manage-name");
+const siegeModification = document.getElementById("manage-seat");
 const message = document.getElementById("message");
 
 reservations.sort(function (a, b) {
@@ -103,9 +107,52 @@ function remplirSelectAjout() {
   }
 }
 
+function remplirSelectPassagers() {
+  passagerModification.innerHTML = "";
+  passagerModification.add(new Option("Choisir un passager", ""));
+
+  for (let i = 0; i < reservations.length; i++) {
+    const reservation = reservations[i];
+    const texte = reservation.nom + " (siège " + reservation.siege + ")";
+
+    passagerModification.add(new Option(texte, reservation.siege));
+  }
+}
+
+function remplirSelectModification() {
+  siegeModification.innerHTML = "";
+  siegeModification.add(new Option("Garder le siège actuel", ""));
+
+  const reservation = trouverReservation(Number(passagerModification.value));
+
+  if (reservation === null) {
+    return;
+  }
+
+  for (let siege = 1; siege <= NOMBRE_DE_SIEGES; siege++) {
+    if (siege !== reservation.siege && siegeLibre(siege)) {
+      siegeModification.add(new Option("Siège " + siege, siege));
+    }
+  }
+}
+
+function changerPassager() {
+  const reservation = trouverReservation(Number(passagerModification.value));
+
+  if (reservation) {
+    nomModification.value = reservation.nom;
+  } else {
+    nomModification.value = "";
+  }
+
+  remplirSelectModification();
+}
+
 function afficher() {
   afficherSieges();
   remplirSelectAjout();
+  remplirSelectPassagers();
+  remplirSelectModification();
 
   document.getElementById("available-count").textContent = NOMBRE_DE_SIEGES - reservations.length;
   document.getElementById("occupied-count").textContent = reservations.length;
@@ -154,6 +201,54 @@ formulaireAjout.onsubmit = function (event) {
   afficher();
   formulaireAjout.reset();
   afficherMessage("Réservation ajoutée au siège " + siege + ".");
+};
+
+passagerModification.onchange = changerPassager;
+
+formulaireModification.onsubmit = function (event) {
+  event.preventDefault();
+
+  const siegeActuel = Number(passagerModification.value);
+  const reservation = trouverReservation(siegeActuel);
+
+  if (reservation === null) {
+    afficherMessage("Choisissez un passager à modifier.");
+    return;
+  }
+
+  const nom = nomModification.value.trim();
+
+  if (nom === "") {
+    afficherMessage("Le nom du passager est obligatoire.");
+    return;
+  }
+
+  if (nomDejaUtilise(nom, reservation)) {
+    afficherMessage("Ce passager a déjà une réservation.");
+    return;
+  }
+
+  let siege = siegeActuel;
+
+  if (siegeModification.value !== "") {
+    siege = Number(siegeModification.value);
+  }
+
+  if (siege !== siegeActuel && !siegeLibre(siege)) {
+    afficherMessage("Ce siège est déjà occupé.");
+    return;
+  }
+
+  reservation.nom = nom;
+  reservation.siege = siege;
+
+  reservations.sort(function (a, b) {
+    return a.siege - b.siege;
+  });
+
+  afficher();
+  formulaireModification.reset();
+  afficherMessage("Réservation modifiée.");
 };
 
 afficher();
