@@ -19,3 +19,33 @@ const message = document.getElementById("message");
 reservations.sort(function (a, b) {
   return a.siege - b.siege;
 });
+
+function sauvegarder() {
+  localStorage.setItem(CLE_STOCKAGE, JSON.stringify(reservations));
+}
+
+function trouverReservation(siege) {
+  for (let i = 0; i < reservations.length; i++) {
+    if (reservations[i].siege === siege) {
+      return reservations[i];
+    }
+  }
+  return null;
+}
+
+function siegeLibre(siege) {
+  return trouverReservation(siege) === null;
+}
+
+function premierSiegeLibre() {
+  for (let siege = 1; siege <= NOMBRE_DE_SIEGES; siege++) {
+    if (siegeLibre(siege)) {
+      return siege;
+    }
+  }
+  return null;
+}
+
+function afficherMessage(texte) {
+  message.textContent = texte;
+}
