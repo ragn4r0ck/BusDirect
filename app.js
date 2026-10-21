@@ -41,8 +41,15 @@ function premierSiegeLibre() {
   return null;
 }
 
+let minuteurMessage = null;
+
 function afficherMessage(texte) {
   message.textContent = texte;
+
+  clearTimeout(minuteurMessage);
+  minuteurMessage = setTimeout(function () {
+    message.textContent = "";
+  }, 3000);
 }
 
 function nomDejaUtilise(nom, reservationIgnoree) {
