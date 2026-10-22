@@ -88,3 +88,29 @@ function afficherSieges() {
     }
   }
 }
+
+function remplirSelectAjout() {
+  siegeAjout.innerHTML = "";
+  siegeAjout.add(new Option("Choisir automatiquement", ""));
+
+  for (let siege = 1; siege <= NOMBRE_DE_SIEGES; siege++) {
+    if (siegeLibre(siege)) {
+      siegeAjout.add(new Option("Siège " + siege, siege));
+    }
+  }
+}
+
+function remplirSelectPassagers() {
+  passagerModification.innerHTML = "";
+  passagerModification.add(new Option("Choisir un passager", ""));
+  passagerSuppression.innerHTML = "";
+  passagerSuppression.add(new Option("Choisir un passager", ""));
+
+  for (let i = 0; i < reservations.length; i++) {
+    const reservation = reservations[i];
+    const texte = reservation.nom + " (siège " + reservation.siege + ")";
+
+    passagerModification.add(new Option(texte, reservation.siege));
+    passagerSuppression.add(new Option(texte, reservation.siege));
+  }
+}
