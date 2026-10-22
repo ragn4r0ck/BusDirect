@@ -49,3 +49,42 @@ function premierSiegeLibre() {
 function afficherMessage(texte) {
   message.textContent = texte;
 }
+
+function afficherSieges() {
+  grille.innerHTML = "";
+  let siege = 1;
+
+  for (let rangee = 1; rangee <= 5; rangee++) {
+    for (let place = 1; place <= 4; place++) {
+      const numero = siege;
+      const bouton = document.createElement("button");
+      bouton.type = "button";
+      bouton.className = "seat";
+      bouton.textContent = numero;
+
+      const reservation = trouverReservation(numero);
+
+      if (reservation) {
+        bouton.classList.add("occupied");
+        bouton.title = reservation.nom;
+
+        const nom = document.createElement("small");
+        nom.textContent = reservation.nom;
+        bouton.appendChild(nom);
+      }
+
+      bouton.onclick = function () {
+        choisirSiege(numero);
+      };
+
+      grille.appendChild(bouton);
+
+      if (place === 2) {
+        const couloir = document.createElement("div");
+        grille.appendChild(couloir);
+      }
+
+      siege++;
+    }
+  }
+}
