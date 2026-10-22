@@ -1,7 +1,8 @@
 const NOMBRE_DE_SIEGES = 20;
 const PRIX = 80;
+const CLE_STOCKAGE = "reservations";
 
-let reservations = [];
+let reservations = JSON.parse(localStorage.getItem(CLE_STOCKAGE)) || [];
 
 const grille = document.getElementById("seat-grid");
 const formulaireAjout = document.getElementById("booking-form");
@@ -18,6 +19,10 @@ const message = document.getElementById("message");
 reservations.sort(function (a, b) {
   return a.siege - b.siege;
 });
+
+function sauvegarder() {
+  localStorage.setItem(CLE_STOCKAGE, JSON.stringify(reservations));
+}
 
 function trouverReservation(siege) {
   for (let i = 0; i < reservations.length; i++) {
@@ -210,6 +215,7 @@ formulaireAjout.onsubmit = function (event) {
     return a.siege - b.siege;
   });
 
+  sauvegarder();
   afficher();
   formulaireAjout.reset();
   afficherMessage("Réservation ajoutée au siège " + siege + ".");
@@ -258,6 +264,7 @@ formulaireModification.onsubmit = function (event) {
     return a.siege - b.siege;
   });
 
+  sauvegarder();
   afficher();
   formulaireModification.reset();
   afficherMessage("Réservation modifiée.");
@@ -285,6 +292,7 @@ formulaireSuppression.onsubmit = function (event) {
     }
   }
 
+  sauvegarder();
   afficher();
   formulaireSuppression.reset();
   afficherMessage("Réservation supprimée.");
