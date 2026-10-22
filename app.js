@@ -98,6 +98,10 @@ function afficherSieges() {
         nom.textContent = reservation.nom;
         bouton.appendChild(nom);
       }
+      bouton.onclick = function () {
+        choisirSiege(numero);
+      };
+
       grille.appendChild(bouton);
 
       if (place === 2) {
@@ -175,6 +179,20 @@ function afficher() {
   document.getElementById("occupied-count").textContent = reservations.length;
   document.getElementById("revenue-count").textContent = reservations.length * PRIX + " DH";
   document.getElementById("ticket-count").textContent = reservations.length;
+}
+
+function choisirSiege(siege) {
+  const reservation = trouverReservation(siege);
+
+  if (reservation) {
+    passagerModification.value = String(siege);
+    changerPassager();
+    afficherMessage("Passager sélectionné pour modification.");
+  } else {
+    siegeAjout.value = String(siege);
+    nomAjout.focus();
+    afficherMessage("Siège " + siege + " sélectionné.");
+  }
 }
 
 formulaireAjout.onsubmit = function (event) {
