@@ -8,11 +8,16 @@ reservations.sort(function (a, b) {
 });
 
 function afficherBillets() {
+  const recherche = document.getElementById("search").value.toLowerCase();
   const tableau = document.getElementById("ticket-rows");
   tableau.innerHTML = "";
 
   for (let i = 0; i < reservations.length; i++) {
     const reservation = reservations[i];
+
+    if (!reservation.nom.toLowerCase().includes(recherche)) {
+      continue;
+    }
 
     const ligne = document.createElement("tr");
 
@@ -35,5 +40,7 @@ function afficherBillets() {
     tableau.appendChild(ligne);
   }
 }
+
+document.getElementById("search").oninput = afficherBillets;
 
 afficherBillets();
