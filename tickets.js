@@ -31,7 +31,10 @@ function afficherMessage(texte) {
 function afficherBillets() {
   const recherche = document.getElementById("search").value.toLowerCase();
   const tableau = document.getElementById("ticket-rows");
+  const vide = document.getElementById("empty");
   tableau.innerHTML = "";
+
+  let nombre = 0;
 
   for (let i = 0; i < reservations.length; i++) {
     const reservation = reservations[i];
@@ -39,6 +42,8 @@ function afficherBillets() {
     if (!reservation.nom.toLowerCase().includes(recherche)) {
       continue;
     }
+
+    nombre++;
 
     const ligne = document.createElement("tr");
 
@@ -70,6 +75,15 @@ function afficherBillets() {
     ligne.appendChild(celluleAction);
     tableau.appendChild(ligne);
   }
+
+  if (nombre === 0) {
+    vide.textContent = recherche === "" ? "Aucun billet pour le moment." : "Aucun billet trouvé.";
+    vide.style.display = "block";
+  } else {
+    vide.style.display = "none";
+  }
+
+  document.getElementById("ticket-count").textContent = reservations.length;
 }
 
 function supprimerBillet(siege) {
