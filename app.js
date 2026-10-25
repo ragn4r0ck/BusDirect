@@ -3,6 +3,7 @@ const PRIX = 80;
 const CLE_STOCKAGE = "reservations";
 
 let reservations = JSON.parse(localStorage.getItem(CLE_STOCKAGE)) || [];
+let siegeEnDeplacement = null;
 
 const grille = document.getElementById("seat-grid");
 const formulaireAjout = document.getElementById("booking-form");
@@ -92,12 +93,47 @@ function afficherSieges() {
         bouton.classList.replace("bg-white", "bg-[#e0e0e0]");
         bouton.classList.replace("hover:bg-[#f0f0f0]", "hover:bg-[#e0e0e0]");
         bouton.title = reservation.nom;
+        bouton.draggable = true;
 
         const nom = document.createElement("small");
         nom.className = "mt-[3px] block overflow-hidden text-ellipsis whitespace-nowrap text-[9px]";
         nom.textContent = reservation.nom;
         bouton.appendChild(nom);
+
+        bouton.ondragstart = function (event) {
+          siegeEnDeplacement = numero;
+          event.dataTransfer.setData("text/plain", String(numero));
+          event.dataTransfer.effectAllowed = "move";
+          bouton.classList.add("opacity-50");
+        };
+
+        bouton.ondragend = function () {
+          siegeEnDeplacement = null;
+          bouton.classList.remove("opacity-50");
+        };
       }
+
+      bouton.ondragover = function (event) {
+        if (siegeEnDeplacement !== null) {
+          event.preventDefault();
+          bouton.classList.add("ring-2", "ring-[#333]");
+        }
+      };
+
+      bouton.ondragleave = function () {
+        bouton.classList.remove("ring-2", "ring-[#333]");
+      };
+
+      bouton.ondrop = function (event) {
+        event.preventDefault();
+        bouton.classList.remove("ring-2", "ring-[#333]");
+
+        const siegeDepart = siegeEnDeplacement;
+        siegeEnDeplacement = null;
+
+        deplacerReservation(siegeDepart, numero);
+      };
+
       bouton.onclick = function () {
         choisirSiege(numero);
       };
@@ -179,6 +215,33 @@ function afficher() {
   document.getElementById("occupied-count").textContent = reservations.length;
   document.getElementById("revenue-count").textContent = reservations.length * PRIX + " DH";
   document.getElementById("ticket-count").textContent = reservations.length;
+}
+
+function deplacerReservation(depuis, vers) {
+  if (depuis === null || depuis === vers) {
+    return;
+  }
+
+  const reservation = trouverReservation(depuis);
+
+  if (reservation === null) {
+    return;
+  }
+
+  if (!siegeLibre(vers)) {
+    afficherMessage("Ce siège est déjà occupé.");
+    return;
+  }
+
+  reservation.siege = vers;
+
+  reservations.sort(function (a, b) {
+    return a.siege - b.siege;
+  });
+
+  sauvegarder();
+  afficher();
+  afficherMessage("Réservation déplacée au siège " + vers + ".");
 }
 
 function choisirSiege(siege) {
