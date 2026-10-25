@@ -28,6 +28,7 @@ function afficherMessage(texte) {
   }, 3000);
 }
 
+// Affichage des billets
 function afficherBillets() {
   const recherche = document.getElementById("search").value.toLowerCase();
   const tableau = document.getElementById("ticket-rows");
@@ -86,6 +87,7 @@ function afficherBillets() {
   document.getElementById("ticket-count").textContent = reservations.length;
 }
 
+// Suppression d'un billet
 function supprimerBillet(siege) {
   const reservation = trouverReservation(siege);
 

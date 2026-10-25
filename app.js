@@ -1,3 +1,4 @@
+// Constantes du trajet
 const NOMBRE_DE_SIEGES = 20;
 const PRIX = 80;
 const CLE_STOCKAGE = "reservations";
@@ -5,6 +6,7 @@ const CLE_STOCKAGE = "reservations";
 let reservations = JSON.parse(localStorage.getItem(CLE_STOCKAGE)) || [];
 let siegeEnDeplacement = null;
 
+// Éléments de la page
 const grille = document.getElementById("seat-grid");
 const formulaireAjout = document.getElementById("booking-form");
 const nomAjout = document.getElementById("booking-name");
@@ -21,6 +23,7 @@ reservations.sort(function (a, b) {
   return a.siege - b.siege;
 });
 
+// Sauvegarde et recherche
 function sauvegarder() {
   localStorage.setItem(CLE_STOCKAGE, JSON.stringify(reservations));
 }
@@ -74,6 +77,7 @@ function nomDejaUtilise(nom, reservationIgnoree) {
   return false;
 }
 
+// Affichage du plan et des listes
 function afficherSieges() {
   grille.innerHTML = "";
   let siege = 1;
@@ -205,6 +209,7 @@ function changerPassager() {
   remplirSelectModification();
 }
 
+// Mise à jour de l'affichage
 function afficher() {
   afficherSieges();
   remplirSelectAjout();
@@ -217,6 +222,7 @@ function afficher() {
   document.getElementById("ticket-count").textContent = reservations.length;
 }
 
+// Déplacement d'un passager (glisser-déposer)
 function deplacerReservation(depuis, vers) {
   if (depuis === null || depuis === vers) {
     return;
@@ -244,6 +250,7 @@ function deplacerReservation(depuis, vers) {
   afficherMessage("Réservation déplacée au siège " + vers + ".");
 }
 
+// Sélection d'un siège au clic
 function choisirSiege(siege) {
   const reservation = trouverReservation(siege);
 
@@ -258,6 +265,7 @@ function choisirSiege(siege) {
   }
 }
 
+// Réservation
 formulaireAjout.onsubmit = function (event) {
   event.preventDefault();
 
@@ -302,6 +310,7 @@ formulaireAjout.onsubmit = function (event) {
   afficherMessage("Réservation ajoutée au siège " + siege + ".");
 };
 
+// Modification
 passagerModification.onchange = changerPassager;
 
 formulaireModification.onsubmit = function (event) {
@@ -351,6 +360,7 @@ formulaireModification.onsubmit = function (event) {
   afficherMessage("Réservation modifiée.");
 };
 
+// Suppression
 formulaireSuppression.onsubmit = function (event) {
   event.preventDefault();
 
